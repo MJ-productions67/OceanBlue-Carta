@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
   <title>Bienvenido Ocean Blue</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,7 +90,6 @@
       align-items: center;
     }
 
-    /* ADAPTACIÓN AL TAMAÑO REAL DE LA IMAGEN SIN BORDES NEGROS */
     .carta {
       width: 100%;
       max-width: 400px;
@@ -120,7 +119,7 @@
       border-radius: 18px;
     }
 
-    /* MODAL CON SWIPE */
+    /* MODAL CON SOPORTE PARA ZOOM */
     .modal {
       display: none;
       position: fixed;
@@ -129,25 +128,24 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
+      overflow: auto;
       background-color: rgba(0, 18, 30, 0.95);
       backdrop-filter: blur(5px);
       justify-content: center;
       align-items: center;
-      touch-action: pan-y;
     }
 
     .modal-content {
       margin: auto;
       display: block;
-      max-width: 92%;
+      max-width: 95%;
       max-height: 85vh;
       border-radius: 18px;
       box-shadow: 0 0 40px rgba(144, 224, 239, 0.5);
       border: 3px solid #90e0ef;
       animation: zoom 0.3s;
       object-fit: contain;
-      user-select: none;
+      touch-action: manipulation;
     }
 
     .fade-anim {
@@ -165,7 +163,7 @@
     }
 
     .close {
-      position: absolute;
+      position: fixed;
       top: 20px;
       right: 20px;
       color: #90e0ef;
@@ -175,6 +173,13 @@
       cursor: pointer;
       z-index: 12;
       line-height: 1;
+      background-color: rgba(0, 18, 30, 0.6);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .close:hover {
@@ -239,27 +244,33 @@
       }
     });
 
-    // SISTEMA DE DESLIZAMIENTO TÁCTIL (SWIPE)
+    // SISTEMA INTEGRENTE DE DETECCIÓN DE ZOOM Y SWIPE
     var startX = 0;
     var endX = 0;
+    var isMultiTouch = false;
 
     modal.addEventListener('touchstart', function(e) {
-      startX = e.changedTouches[0].screenX;
-    }, false);
+      if (e.touches.length > 1) {
+        isMultiTouch = true; // Si usa 2 o más dedos, es ZOOM
+      } else {
+        isMultiTouch = false;
+        startX = e.changedTouches[0].screenX;
+      }
+    }, { passive: true });
 
     modal.addEventListener('touchend', function(e) {
-      endX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, false);
+      if (!isMultiTouch && e.touches.length === 0) {
+        endX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }
+    }, { passive: true });
 
     function handleSwipe() {
-      var threshold = 40; // Sensibilidad del deslizamiento
+      var threshold = 60; // Mayor tolerancia para no confundir pequeñas pulsaciones
       if (endX < startX - threshold) {
-        // Deslizar a la izquierda -> Siguiente imagen
         var nextIdx = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
         changeImage(nextIdx);
       } else if (endX > startX + threshold) {
-        // Deslizar a la derecha -> Imagen anterior
         var prevIdx = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
         changeImage(prevIdx);
       }
