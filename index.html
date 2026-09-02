@@ -80,7 +80,6 @@
       100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    /* CONTENEDOR VERTICAL PARA PC Y MÓVIL */
     .carrusel {
       position: relative;
       z-index: 2;
@@ -91,22 +90,22 @@
       align-items: center;
     }
 
+    /* ADAPTACIÓN AL TAMAÑO REAL DE LA IMAGEN SIN BORDES NEGROS */
     .carta {
       width: 100%;
-      max-width: 320px;
-      height: 440px;
+      max-width: 400px;
+      height: auto;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
       border: 2px solid rgba(144, 224, 239, 0.4);
       flex-shrink: 0;
       transition: transform 0.3s, border-color 0.3s;
-      background-color: #00121e;
+      background-color: transparent;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
     }
 
     .carta:hover, .carta:active {
@@ -114,14 +113,14 @@
       border-color: #90e0ef;
     }
 
-    /* IMAGEN COMPLETA SIN RECORTAR */
     .carta img {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 12px;
+      height: auto;
+      display: block;
+      border-radius: 18px;
     }
 
+    /* MODAL CON SWIPE */
     .modal {
       display: none;
       position: fixed;
@@ -130,27 +129,29 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
+      overflow: hidden;
       background-color: rgba(0, 18, 30, 0.95);
       backdrop-filter: blur(5px);
       justify-content: center;
       align-items: center;
+      touch-action: pan-y;
     }
 
     .modal-content {
       margin: auto;
       display: block;
-      max-width: 90%;
+      max-width: 92%;
       max-height: 85vh;
       border-radius: 18px;
       box-shadow: 0 0 40px rgba(144, 224, 239, 0.5);
       border: 3px solid #90e0ef;
-      animation: zoom 0.4s;
+      animation: zoom 0.3s;
       object-fit: contain;
+      user-select: none;
     }
 
     .fade-anim {
-      animation: fadeEffect 0.35s ease-in-out;
+      animation: fadeEffect 0.3s ease-in-out;
     }
 
     @keyframes zoom {
@@ -180,44 +181,9 @@
       color: #ffffff;
     }
 
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 18, 30, 0.8);
-      color: #90e0ef;
-      font-size: 26px;
-      font-weight: bold;
-      border: 2px solid #90e0ef;
-      padding: 8px 14px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: 0.3s;
-      user-select: none;
-      z-index: 11;
-    }
-
-    .nav-btn:active {
-      background-color: #00b4d8;
-      color: #00121e;
-    }
-
-    .prev {
-      left: 15px;
-    }
-
-    .next {
-      right: 15px;
-    }
-
     @media (max-width: 600px) {
       h1 {
         font-size: 2.7rem;
-      }
-
-      .carta {
-        max-width: 280px;
-        height: 390px;
       }
 
       .whirlpool-bg {
@@ -244,9 +210,7 @@
 
   <div id="myModal" class="modal">
     <span class="close">&times;</span>
-    <button class="nav-btn prev" id="prevBtn">&#10094;</button>
     <img class="modal-content" id="img01">
-    <button class="nav-btn next" id="nextBtn">&#10095;</button>
   </div>
 
   <script>
@@ -275,17 +239,31 @@
       }
     });
 
-    document.getElementById("prevBtn").onclick = function(e) {
-      e.stopPropagation();
-      var nextIdx = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
-      changeImage(nextIdx);
-    };
+    // SISTEMA DE DESLIZAMIENTO TÁCTIL (SWIPE)
+    var startX = 0;
+    var endX = 0;
 
-    document.getElementById("nextBtn").onclick = function(e) {
-      e.stopPropagation();
-      var nextIdx = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
-      changeImage(nextIdx);
-    };
+    modal.addEventListener('touchstart', function(e) {
+      startX = e.changedTouches[0].screenX;
+    }, false);
+
+    modal.addEventListener('touchend', function(e) {
+      endX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      var threshold = 40; // Sensibilidad del deslizamiento
+      if (endX < startX - threshold) {
+        // Deslizar a la izquierda -> Siguiente imagen
+        var nextIdx = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+        changeImage(nextIdx);
+      } else if (endX > startX + threshold) {
+        // Deslizar a la derecha -> Imagen anterior
+        var prevIdx = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+        changeImage(prevIdx);
+      }
+    }
 
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function() {
