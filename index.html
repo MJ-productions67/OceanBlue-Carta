@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -136,6 +136,37 @@
       border-radius: 18px;
     }
 
+    /* AVISO FINAL AUTOSERVICIO */
+    .notice-card {
+      margin-top: 35px;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(0, 27, 46, 0.85);
+      border: 2px solid #22d3ee;
+      border-radius: 20px;
+      padding: 20px 22px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 15px rgba(0, 180, 216, 0.15);
+      backdrop-filter: blur(8px);
+      z-index: 2;
+      position: relative;
+    }
+
+    .notice-card p {
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #e0f7fa;
+      line-height: 1.45;
+      letter-spacing: 0.3px;
+    }
+
+    .notice-card span.highlight {
+      color: #22d3ee;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+    }
+
     .modal {
       display: none;
       position: fixed;
@@ -211,7 +242,6 @@
       color: #ffffff;
     }
 
-    /* CONTROLES DE NAVEGACIÓN FUERA DE LA IMAGEN */
     .controls-bar {
       display: flex;
       justify-content: center;
@@ -252,6 +282,10 @@
         font-size: 0.95rem;
       }
 
+      .notice-card p {
+        font-size: 1.1rem;
+      }
+
       .whirlpool-bg {
         width: 300px;
         height: 300px;
@@ -275,6 +309,10 @@
       <div class="carta"><img src="imagen3.png" alt="Carta 3" class="clickable-img"></div>
       <div class="carta"><img src="imagen4.png" alt="Carta 4" class="clickable-img"></div>
     </div>
+  </div>
+
+  <div class="notice-card">
+    <p>Hola, ¿ya revisaste bien nuestro menú? Recuerda que somos <span class="highlight">autoservicio</span>, el siguiente paso es acercarte a caja para realizar tu pedido, ¡muchas gracias por tu compra!</p>
   </div>
 
   <div id="myModal" class="modal">
