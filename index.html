@@ -38,26 +38,38 @@
       pointer-events: none;
     }
 
-    /* CORAZONES DECORATIVOS EN EL FONDO BASE (FIJOS Y DE MEDIO LADO) */
+    /* CORAZONES DIFUMINADOS EN EL FONDO (MÁS COBERTURA Y MOVIMIENTO EN SU EJE) */
     .bg-heart {
       position: fixed;
       pointer-events: none;
       z-index: 0;
       opacity: 0.35;
-      font-size: 2.8rem;
-      filter: drop-shadow(0 0 12px rgba(255, 42, 109, 0.8));
-      animation: heartPulseBg 3s ease-in-out infinite alternate;
+      font-size: 4rem;
+      filter: blur(5px) drop-shadow(0 0 15px rgba(255, 42, 109, 0.7));
+      animation: heartRocking 4s ease-in-out infinite alternate;
+      user-select: none;
     }
 
-    .bg-heart-1 { top: 8%; left: 5%; transform: rotate(-25deg); animation-delay: 0s; }
-    .bg-heart-2 { top: 25%; right: 6%; transform: rotate(20deg); animation-delay: 0.8s; font-size: 3.5rem; }
-    .bg-heart-3 { top: 50%; left: 4%; transform: rotate(15deg); animation-delay: 1.5s; font-size: 3rem; }
-    .bg-heart-4 { top: 72%; right: 8%; transform: rotate(-30deg); animation-delay: 2.2s; }
-    .bg-heart-5 { bottom: 5%; left: 10%; transform: rotate(-18deg); animation-delay: 0.5s; font-size: 3.2rem; }
+    /* Distribuimos más corazones por toda la pantalla */
+    .bg-heart-1 { top: 6%; left: 4%; font-size: 4.8rem; animation-delay: 0s; }
+    .bg-heart-2 { top: 12%; right: 5%; font-size: 5.5rem; animation-delay: 0.8s; }
+    .bg-heart-3 { top: 35%; left: 6%; font-size: 4.2rem; animation-delay: 1.5s; }
+    .bg-heart-4 { top: 42%; right: 7%; font-size: 6rem; animation-delay: 2.2s; }
+    .bg-heart-5 { top: 65%; left: 3%; font-size: 5rem; animation-delay: 0.5s; }
+    .bg-heart-6 { top: 70%; right: 6%; font-size: 4.5rem; animation-delay: 1.2s; }
+    .bg-heart-7 { bottom: 4%; left: 12%; font-size: 5.2rem; animation-delay: 2.8s; }
+    .bg-heart-8 { bottom: 5%; right: 10%; font-size: 4.8rem; animation-delay: 1.9s; }
 
-    @keyframes heartPulseBg {
-      0% { transform: scale(1) rotate(-20deg); opacity: 0.3; }
-      100% { transform: scale(1.15) rotate(-15deg); opacity: 0.5; }
+    /* Animación para oscilar de lado a lado sobre su propio eje */
+    @keyframes heartRocking {
+      0% {
+        transform: rotate(-25deg) scale(0.95);
+        opacity: 0.25;
+      }
+      100% {
+        transform: rotate(25deg) scale(1.1);
+        opacity: 0.45;
+      }
     }
 
     /* OVERLAY DE SAN VALENTÍN */
@@ -536,23 +548,26 @@
       .arrow-svg { left: 100px; top: 75px; width: 65px; }
       .notice-card p { font-size: 1.1rem; }
       .whirlpool-bg { width: 300px; height: 300px; }
-      .bg-heart { font-size: 2.2rem; }
+      .bg-heart { font-size: 3rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- CORAZONES FIJOS EN EL FONDO AZUL DE MEDIO LADO -->
+  <!-- CORAZONES DEL FONDO: DIFUMINADOS, MÁS GRANDES Y BALANCEÁNDOSE SOBRE SU EJE -->
   <div class="bg-heart bg-heart-1">💖</div>
   <div class="bg-heart bg-heart-2">❤️</div>
   <div class="bg-heart bg-heart-3">💕</div>
   <div class="bg-heart bg-heart-4">💗</div>
   <div class="bg-heart bg-heart-5">💝</div>
+  <div class="bg-heart bg-heart-6">❤️</div>
+  <div class="bg-heart bg-heart-7">💖</div>
+  <div class="bg-heart bg-heart-8">💕</div>
 
   <div id="valentine-overlay">
     <div class="valentine-container">
       
-      <!-- CARTEL COLGANTE DE MEDIO LADO -->
+      <!-- CARTEL COLGANTE EN DIAGONAL -->
       <div class="hanging-sign-wrapper">
         <div class="sign-rope-left"></div>
         <div class="sign-rope-right"></div>
