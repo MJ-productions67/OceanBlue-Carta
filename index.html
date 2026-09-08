@@ -216,7 +216,7 @@
       100% { left: 270px; opacity: 0; transform: scale(1.8); }
     }
 
-    /* ELEMENTOS QUE CAEN DEL FONDO */
+    /* CORAZONES ROSADOS Y ROJOS QUE CAEN DEL FONDO */
     .falling-item {
       position: fixed;
       top: -12%;
@@ -556,16 +556,16 @@
   <div id="valentine-overlay">
     <div class="valentine-container">
       
-      <!-- CARTEL COLGANTE EN DIAGONAL CON CUERDAS -->
+      <!-- CARTEL COLGANTE DE MEDIO LADO -->
       <div class="hanging-sign-wrapper">
         <div class="sign-rope-left"></div>
         <div class="sign-rope-right"></div>
         <div class="valentine-title-board">
-          Ocean Blue les desea un feliz día de San Valentín
+          Ocean Blue les desea un feliz San Valentín
         </div>
       </div>
 
-      <!-- CUPIDO Y CORAZÓN COLGANDO DE CUERDAS -->
+      <!-- CUPIDO Y CORAZÓN COLGANDO -->
       <div class="cupid-stage">
         
         <!-- CUPIDO CON CUERDA -->
@@ -574,7 +574,7 @@
           <img src="cupido.png" class="cupid-img" alt="Cupido">
         </div>
 
-        <!-- FLECHA VOADORA -->
+        <!-- FLECHA VOLADORA -->
         <svg class="arrow-svg" viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5 10 L85 10" stroke="#ff2a6d" stroke-width="4" stroke-linecap="round"/>
           <path d="M80 3 L95 10 L80 17 Z" fill="#ff2a6d"/>
@@ -631,29 +631,21 @@
       const item = document.createElement('div');
       item.classList.add('falling-item');
       
-      const itemsList = [
-        '❤️', '💖', '💕', '💗', '💘', '💝', 
-        '🍬', '🍭', '🧁', '🍫', 
-        '✨', '🎊', '🎉', '🌸', '⚡'
-      ];
+      // Únicamente corazones rosados y rojos
+      const heartsList = ['❤️', '💖', '💕', '💗', '💘', '💝'];
       
-      const selectedItem = itemsList[Math.floor(Math.random() * itemsList.length)];
-      item.innerText = selectedItem;
+      const selectedHeart = heartsList[Math.floor(Math.random() * heartsList.length)];
+      item.innerText = selectedHeart;
       
       item.style.left = Math.random() * 100 + 'vw';
       item.style.animationDuration = Math.random() * 2 + 3.5 + 's';
       
-      const isHeart = ['❤️', '💖', '💕', '💗', '💘', '💝'].includes(selectedItem);
-      const minSize = isHeart ? 32 : 24;
-      const maxSize = isHeart ? 48 : 36;
-      
+      // Tamaños más grandes para destacar sobre el azul
+      const minSize = 36;
+      const maxSize = 52;
       item.style.fontSize = Math.random() * (maxSize - minSize) + minSize + 'px';
       
-      if (isHeart) {
-        item.style.filter = 'drop-shadow(0 0 8px rgba(255, 77, 109, 0.9))';
-      } else {
-        item.style.filter = 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.7))';
-      }
+      item.style.filter = 'drop-shadow(0 0 10px rgba(255, 42, 109, 0.9))';
 
       document.body.appendChild(item);
 
